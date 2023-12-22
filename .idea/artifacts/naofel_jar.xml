@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="naofel:jar">
+    <output-path>$PROJECT_DIR$/../../S1.20.4/plugins</output-path>
+    <root id="archive" name="naofel.jar">
+      <element id="module-output" name="naofel" />
+      <element id="file-copy" path="$PROJECT_DIR$/src/main/resources/plugin.yml" />
+    </root>
+  </artifact>
+</component>
