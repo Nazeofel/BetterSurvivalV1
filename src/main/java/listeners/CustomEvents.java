@@ -45,28 +45,30 @@ public class CustomEvents implements Listener {
 
     // power 10
 
-   private static final ItemStack E6 = createEnchantedBook("Efficiency VI", Enchantment.DIG_SPEED, 6);
-   private static final ItemStack S6 = createEnchantedBook("Sharpness VI", Enchantment.DAMAGE_ALL, 6);
-   private static final ItemStack S7 = createEnchantedBook("Sharpness VII", Enchantment.DAMAGE_ALL, 7);
-   private static final ItemStack S8 = createEnchantedBook("Sharpness VIII", Enchantment.DAMAGE_ALL, 8);
-   private static final ItemStack S9 = createEnchantedBook("Sharpness IX", Enchantment.DAMAGE_ALL, 9);
-   private static final ItemStack S10 = createEnchantedBook("Sharpness X", Enchantment.DAMAGE_ALL, 10);
+    private static final ItemStack E6 = createEnchantedBook("Efficiency VI", Enchantment.DIG_SPEED, 6);
+    private static final ItemStack E7 = createEnchantedBook("Efficiency VII", Enchantment.DIG_SPEED, 7);
+    private static final ItemStack S6 = createEnchantedBook("Sharpness VI", Enchantment.DAMAGE_ALL, 6);
+    private static final ItemStack S7 = createEnchantedBook("Sharpness VII", Enchantment.DAMAGE_ALL, 7);
+    private static final ItemStack S8 = createEnchantedBook("Sharpness VIII", Enchantment.DAMAGE_ALL, 8);
+    private static final ItemStack S9 = createEnchantedBook("Sharpness IX", Enchantment.DAMAGE_ALL, 9);
+    private static final ItemStack S10 = createEnchantedBook("Sharpness X", Enchantment.DAMAGE_ALL, 10);
 
-   private static final ItemStack P5 = createEnchantedBook("Protection V", Enchantment.PROTECTION_ENVIRONMENTAL, 5);
-   private static final ItemStack P6 = createEnchantedBook("Protection VI", Enchantment.PROTECTION_ENVIRONMENTAL, 6);
-   private static final ItemStack P7 = createEnchantedBook("Protection VII", Enchantment.PROTECTION_ENVIRONMENTAL, 7);
-   private static final ItemStack P8 = createEnchantedBook("Protection VIII", Enchantment.PROTECTION_ENVIRONMENTAL, 8);
-   private static final ItemStack P9 = createEnchantedBook("Protection IX", Enchantment.PROTECTION_ENVIRONMENTAL, 9);
-   private static final ItemStack P10 = createEnchantedBook("Protection X", Enchantment.PROTECTION_ENVIRONMENTAL, 10);
+    private static final ItemStack P5 = createEnchantedBook("Protection V", Enchantment.PROTECTION_ENVIRONMENTAL, 5);
+    private static final ItemStack P6 = createEnchantedBook("Protection VI", Enchantment.PROTECTION_ENVIRONMENTAL, 6);
+    private static final ItemStack P7 = createEnchantedBook("Protection VII", Enchantment.PROTECTION_ENVIRONMENTAL, 7);
+    private static final ItemStack P8 = createEnchantedBook("Protection VIII", Enchantment.PROTECTION_ENVIRONMENTAL, 8);
+    private static final ItemStack P9 = createEnchantedBook("Protection IX", Enchantment.PROTECTION_ENVIRONMENTAL, 9);
+    private static final ItemStack P10 = createEnchantedBook("Protection X", Enchantment.PROTECTION_ENVIRONMENTAL, 10);
 
-   public static boolean isLogBreakingAllowed = false;
-   private final static Inventory inventory = Bukkit.createInventory(null, 54, "Enchantments");
+    public static boolean isLogBreakingAllowed = false;
+    private final static Inventory inventory = Bukkit.createInventory(null, 54, "Enchantments");
 
-   private final static Inventory test_inventory = Bukkit.createInventory(null, 54, "MyInventory");
+    private final static Inventory test_inventory = Bukkit.createInventory(null, 54, "MyInventory");
 
 
     static  {
         inventory.setItem(2, E6);
+        inventory.setItem(11, E7);
         inventory.setItem(4, S6);
         inventory.setItem(13, S7);
         inventory.setItem(22, S8);
@@ -161,6 +163,10 @@ public class CustomEvents implements Listener {
                 item = E6;
                 break;
             }
+            case "Efficiency VII":{
+                item = E7;
+                break;
+            }
             case "Sharpness VI":{
                 item = S6;
                 break;
@@ -229,29 +235,30 @@ public class CustomEvents implements Listener {
                 if(clicked.getItemMeta() != null && clicked.getItemMeta().hasDisplayName()){
                     switch(clicked.getItemMeta().getDisplayName()){
                         case "Protection V": {
-                            buyBook(playerExp, player_levels, "You successfully bought an "+ clicked.getItemMeta().getDisplayName() + " ", calculateExperience(70), 70, p, P5, EnchantmentsLevels.VI);
+                            buyBook(playerExp, player_levels, "You successfully bought an "+ clicked.getItemMeta().getDisplayName() + " ", calculateExperience(45), 45, p, P5, EnchantmentsLevels.V);
                             break;
                         }
                         case "Efficiency VI":
                         case "Sharpness VI":
                         case "Protection VI":
                             p.sendMessage(String.valueOf(player_levels));
-                            buyBook(playerExp, player_levels, "You successfully bought an "+ clicked.getItemMeta().getDisplayName() + " ", calculateExperience(100), 100, p, getRightBook(clicked.getItemMeta().getDisplayName()), EnchantmentsLevels.VI);
+                            buyBook(playerExp, player_levels, "You successfully bought an "+ clicked.getItemMeta().getDisplayName() + " ", calculateExperience(65), 65, p, getRightBook(clicked.getItemMeta().getDisplayName()), EnchantmentsLevels.VI);
                             break;
+                        case "Efficiency VII":
                         case "Sharpness VII":
                         case "Protection VII":
                             p.sendMessage(String.valueOf(player_levels));
-                            buyBook(playerExp, player_levels, "You successfully bought an "+ clicked.getItemMeta().getDisplayName() + " ", calculateExperience(125), 125, p, getRightBook(clicked.getItemMeta().getDisplayName()), EnchantmentsLevels.VII);
+                            buyBook(playerExp, player_levels, "You successfully bought an "+ clicked.getItemMeta().getDisplayName() + " ", calculateExperience(80), 80, p, getRightBook(clicked.getItemMeta().getDisplayName()), EnchantmentsLevels.VII);
                             break;
                         case "Sharpness VIII":
                         case "Protection VIII":
                             p.sendMessage(String.valueOf(player_levels));
-                            buyBook(playerExp, player_levels, "You successfully bought an "+ clicked.getItemMeta().getDisplayName() + " ", calculateExperience(150), 150, p, getRightBook(clicked.getItemMeta().getDisplayName()), EnchantmentsLevels.VIII);
+                            buyBook(playerExp, player_levels, "You successfully bought an "+ clicked.getItemMeta().getDisplayName() + " ", calculateExperience(100), 100, p, getRightBook(clicked.getItemMeta().getDisplayName()), EnchantmentsLevels.VIII);
                             break;
                         case "Sharpness IX":
                         case "Protection IX":
                             p.sendMessage(String.valueOf(player_levels));
-                            buyBook(playerExp, player_levels, "You successfully bought an "+ clicked.getItemMeta().getDisplayName() + " ", calculateExperience(200), 200, p, getRightBook(clicked.getItemMeta().getDisplayName()), EnchantmentsLevels.IX);
+                            buyBook(playerExp, player_levels, "You successfully bought an "+ clicked.getItemMeta().getDisplayName() + " ", calculateExperience(125), 125, p, getRightBook(clicked.getItemMeta().getDisplayName()), EnchantmentsLevels.IX);
                             break;
                         case "Sharpness X":
                         case "Protection X":
@@ -319,13 +326,13 @@ public class CustomEvents implements Listener {
     }
 
 
-  /*
-   * Le 6 : 150 lvl
-   * le 7 : 170 lvl 32 fer 32  or 10 diams
-   * le 8 : 200 lvl 64 fer 64 or 25 diams
-   * le 9 : 240 lvl 100 fer 100 or 64 diams
-   * le 10 une etoile du nether et un oeuf
-   * */
+    /*
+     * Le 6 : 150 lvl
+     * le 7 : 170 lvl 32 fer 32  or 10 diams
+     * le 8 : 200 lvl 64 fer 64 or 25 diams
+     * le 9 : 240 lvl 100 fer 100 or 64 diams
+     * le 10 une etoile du nether et un oeuf
+     * */
 
 
     private void buyBook(float player_exp, int player_levels, String success, float exp_needed, int level_needed, Player p, ItemStack item, EnchantmentsLevels el){
