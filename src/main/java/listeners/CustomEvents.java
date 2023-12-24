@@ -2,6 +2,7 @@ package listeners;
 
 import org.bukkit.Bukkit;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -20,9 +21,11 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
+import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.naofel.naofel.CustomPlayer;
 
+import java.lang.reflect.Type;
 import java.util.*;
 
 public class CustomEvents implements Listener {
@@ -59,6 +62,7 @@ public class CustomEvents implements Listener {
     private static final ItemStack P8 = createEnchantedBook("Protection VIII", Enchantment.PROTECTION_ENVIRONMENTAL, 8);
     private static final ItemStack P9 = createEnchantedBook("Protection IX", Enchantment.PROTECTION_ENVIRONMENTAL, 9);
     private static final ItemStack P10 = createEnchantedBook("Protection X", Enchantment.PROTECTION_ENVIRONMENTAL, 10);
+    private static final ItemStack PW10 = createEnchantedBook("Power X", Enchantment.ARROW_DAMAGE, 10);
 
     public static boolean isLogBreakingAllowed = false;
     private final static Inventory inventory = Bukkit.createInventory(null, 54, "Enchantments");
@@ -67,19 +71,44 @@ public class CustomEvents implements Listener {
 
 
     static  {
-        inventory.setItem(2, E6);
-        inventory.setItem(11, E7);
-        inventory.setItem(4, S6);
-        inventory.setItem(13, S7);
+        inventory.setItem(0, new ItemStack(Material.GRAY_STAINED_GLASS_PANE));
+        inventory.setItem(1, new ItemStack(Material.GRAY_STAINED_GLASS_PANE));
+        inventory.setItem(2, new ItemStack(Material.GRAY_STAINED_GLASS_PANE));
+        inventory.setItem(3, new ItemStack(Material.GRAY_STAINED_GLASS_PANE));
+        inventory.setItem(4, new ItemStack(Material.GRAY_STAINED_GLASS_PANE));
+        inventory.setItem(5, new ItemStack(Material.GRAY_STAINED_GLASS_PANE));
+        inventory.setItem(6, new ItemStack(Material.GRAY_STAINED_GLASS_PANE));
+        inventory.setItem(7, new ItemStack(Material.GRAY_STAINED_GLASS_PANE));
+        inventory.setItem(8, new ItemStack(Material.GRAY_STAINED_GLASS_PANE));
+        inventory.setItem(9, new ItemStack(Material.DIAMOND_PICKAXE));
+        inventory.setItem(12, E6);
+        inventory.setItem(14, E7);
+        inventory.setItem(17, new ItemStack(Material.DIAMOND_AXE));
+        inventory.setItem(18, new ItemStack(Material.DIAMOND_SWORD));
+        inventory.setItem(20, S6);
+        inventory.setItem(21, S7);
         inventory.setItem(22, S8);
-        inventory.setItem(31, S9);
-        inventory.setItem(40, S10);
-        inventory.setItem(6, P6);
-        inventory.setItem(15, P6);
-        inventory.setItem(24, P7);
-        inventory.setItem(33, P8);
-        inventory.setItem(42, P9);
-        inventory.setItem(51, P10);
+        inventory.setItem(23, S9);
+        inventory.setItem(24, S10);
+        inventory.setItem(27, new ItemStack(Material.DIAMOND_CHESTPLATE));
+        inventory.setItem(29, P5);
+        inventory.setItem(30, P6);
+        inventory.setItem(31, P7);
+        inventory.setItem(32, P8);
+        inventory.setItem(33, P9);
+        inventory.setItem(34, P10);
+        inventory.setItem(36, new ItemStack(Material.BOW));
+        inventory.setItem(40, PW10);
+        inventory.setItem(45, new ItemStack(Material.GRAY_STAINED_GLASS_PANE));
+        inventory.setItem(46, new ItemStack(Material.GRAY_STAINED_GLASS_PANE));
+        inventory.setItem(47, new ItemStack(Material.GRAY_STAINED_GLASS_PANE));
+        inventory.setItem(48, new ItemStack(Material.GRAY_STAINED_GLASS_PANE));
+        inventory.setItem(49, new ItemStack(Material.GRAY_STAINED_GLASS_PANE));
+        inventory.setItem(50, new ItemStack(Material.GRAY_STAINED_GLASS_PANE));
+        inventory.setItem(51, new ItemStack(Material.GRAY_STAINED_GLASS_PANE));
+        inventory.setItem(52, new ItemStack(Material.GRAY_STAINED_GLASS_PANE));
+        inventory.setItem(53, new ItemStack(Material.GRAY_STAINED_GLASS_PANE));
+
 
     }
 
@@ -99,10 +128,35 @@ public class CustomEvents implements Listener {
         ItemStack item = new ItemStack(Material.ENCHANTED_BOOK, 1);
         ItemMeta meta = item.getItemMeta();
         if(meta == null) return null;
-        meta.setDisplayName(name);
+        meta.setDisplayName(ChatColor.RED + name);
         ((EnchantmentStorageMeta) meta).addStoredEnchant(ench, speed, true);
-        item.setItemMeta(meta);
+        ArrayList<String> lore = new ArrayList<String>();
+        switch (speed) {
+            case 5:
+                lore.add(ChatColor.translateAlternateColorCodes('&',"&eCost : 45 Levels"));
+                break;
+            case 6:
+                lore.add(ChatColor.translateAlternateColorCodes('&',"&eCost : 65 Levels"));
+                break;
+            case 7:
+                lore.add(ChatColor.translateAlternateColorCodes('&',"&eCost : 80 Levels, 32 Fer , 32 Or and 10 Diamonds"));
+                break;
+            case 8:
+                lore.add(ChatColor.translateAlternateColorCodes('&',"&eCost : 100 Levels, 64 Fer , 64 Or and 25 Diamonds"));
+                break;
+            case 9:
+                lore.add(ChatColor.translateAlternateColorCodes('&',"&eCost : 125 Levels, 100 Fer , 100 Or and 64 Diamonds"));
+                break;
+            case 10:
+                lore.add(ChatColor.translateAlternateColorCodes('&',"&eCost : 1 Nether Star, 1 Dragon Egg"));
+                break;
+            default:
+                lore.add("");
+                break;
 
+        }
+        meta.setLore(lore);
+        item.setItemMeta(meta);
         return item;
     }
 
@@ -158,6 +212,7 @@ public class CustomEvents implements Listener {
 
     private ItemStack getRightBook(String bookTitle){
         ItemStack item = null;
+
         switch (bookTitle){
             case "Efficiency VI":{
                 item = E6;
@@ -207,8 +262,12 @@ public class CustomEvents implements Listener {
                 item = P9;
                 break;
             }
-            case "Protection X":{
+            case "Protection X": {
                 item = P10;
+                break;
+            }
+            case "Power X":{
+                item = PW10;
                 break;
             }
             default:
@@ -233,37 +292,45 @@ public class CustomEvents implements Listener {
             e.setCancelled(true);
             if(clicked.hasItemMeta()) {
                 if(clicked.getItemMeta() != null && clicked.getItemMeta().hasDisplayName()){
-                    switch(clicked.getItemMeta().getDisplayName()){
+                    String stripname = ChatColor.stripColor(clicked.getItemMeta().getDisplayName());
+                    switch(stripname){
                         case "Protection V": {
                             buyBook(playerExp, player_levels, "You successfully bought an "+ clicked.getItemMeta().getDisplayName() + " ", calculateExperience(45), 45, p, P5, EnchantmentsLevels.V);
+                            Fireworks(p,5);
                             break;
                         }
                         case "Efficiency VI":
                         case "Sharpness VI":
                         case "Protection VI":
                             p.sendMessage(String.valueOf(player_levels));
-                            buyBook(playerExp, player_levels, "You successfully bought an "+ clicked.getItemMeta().getDisplayName() + " ", calculateExperience(65), 65, p, getRightBook(clicked.getItemMeta().getDisplayName()), EnchantmentsLevels.VI);
+                            buyBook(playerExp, player_levels, "You successfully bought an "+ clicked.getItemMeta().getDisplayName() + " ", calculateExperience(65), 65, p, getRightBook(stripname), EnchantmentsLevels.VI);
+                            Fireworks(p,8);
                             break;
                         case "Efficiency VII":
                         case "Sharpness VII":
                         case "Protection VII":
                             p.sendMessage(String.valueOf(player_levels));
-                            buyBook(playerExp, player_levels, "You successfully bought an "+ clicked.getItemMeta().getDisplayName() + " ", calculateExperience(80), 80, p, getRightBook(clicked.getItemMeta().getDisplayName()), EnchantmentsLevels.VII);
+                            buyBook(playerExp, player_levels, "You successfully bought an "+ clicked.getItemMeta().getDisplayName() + " ", calculateExperience(80), 80, p, getRightBook(stripname), EnchantmentsLevels.VII);
+                            Fireworks(p,10);
                             break;
                         case "Sharpness VIII":
                         case "Protection VIII":
                             p.sendMessage(String.valueOf(player_levels));
-                            buyBook(playerExp, player_levels, "You successfully bought an "+ clicked.getItemMeta().getDisplayName() + " ", calculateExperience(100), 100, p, getRightBook(clicked.getItemMeta().getDisplayName()), EnchantmentsLevels.VIII);
+                            buyBook(playerExp, player_levels, "You successfully bought an "+ clicked.getItemMeta().getDisplayName() + " ", calculateExperience(100), 100, p, getRightBook(stripname), EnchantmentsLevels.VIII);
+                            Fireworks(p,12);
                             break;
                         case "Sharpness IX":
                         case "Protection IX":
                             p.sendMessage(String.valueOf(player_levels));
-                            buyBook(playerExp, player_levels, "You successfully bought an "+ clicked.getItemMeta().getDisplayName() + " ", calculateExperience(125), 125, p, getRightBook(clicked.getItemMeta().getDisplayName()), EnchantmentsLevels.IX);
+                            buyBook(playerExp, player_levels, "You successfully bought an "+ clicked.getItemMeta().getDisplayName() + " ", calculateExperience(125), 125, p, getRightBook(stripname), EnchantmentsLevels.IX);
+                            Fireworks(p,20);
                             break;
                         case "Sharpness X":
                         case "Protection X":
+                        case "Power X":
                             p.sendMessage(String.valueOf(player_levels));
-                            buyBook(playerExp, player_levels, "You successfully bought an "+ clicked.getItemMeta().getDisplayName() + " ", calculateExperience(0), 0, p, getRightBook(clicked.getItemMeta().getDisplayName()), EnchantmentsLevels.X);
+                            buyBook(playerExp, player_levels, "You successfully bought an "+ clicked.getItemMeta().getDisplayName() + " ", calculateExperience(0), 0, p, getRightBook(stripname), EnchantmentsLevels.X);
+                            Fireworks(p,50);
                             break;
                         default:
                             System.out.println("nothinggg");
@@ -275,8 +342,64 @@ public class CustomEvents implements Listener {
         }
 
     }
+private void Fireworks(Player p, int levelf){
+        for(int i = 0; i<levelf;i++){
+            Firework firework = p.getWorld().spawn(p.getLocation().add(i,0,i),Firework.class);
+            FireworkMeta data = (FireworkMeta) firework.getFireworkMeta();
 
+            //Our random generator
+            Random r = new Random();
 
+            //Get the type
+            int rt = r.nextInt(5)+1;
+            FireworkEffect.Type type = FireworkEffect.Type.BALL;
+            if (rt == 1) type = FireworkEffect.Type.BALL;
+            if (rt == 2) type = FireworkEffect.Type.BALL_LARGE;
+            if (rt == 3) type = FireworkEffect.Type.BURST;
+            if (rt == 4) type = FireworkEffect.Type.CREEPER;
+            if (rt == 5) type = FireworkEffect.Type.STAR;
+
+            //Get our random colours
+            int r1i = r.nextInt(16) + 1;
+            int r2i = r.nextInt(16) + 1;
+            Color c1 = getColor(r1i);
+            Color c2 = getColor(r2i);
+
+            //Create our effect with this
+            data.addEffects(FireworkEffect.builder().flicker(r.nextBoolean()).withColor(c1).withFade(c2).with(type).trail(r.nextBoolean()).build());
+
+            //Generate some random power and set it
+            int rp = r.nextInt(2) + 1;
+            data.setPower(rp);
+            data.setPower(2);
+
+            //Then apply the effect to the meta
+            firework.setFireworkMeta(data);
+        }
+    }
+    private Color getColor(int colorIdx) {
+        ArrayList<Color> arr = new ArrayList<>();
+
+        arr.add(Color.GREEN);
+        arr.add(Color.RED);
+        arr.add(Color.BLUE);
+        arr.add(Color.LIME);
+        arr.add(Color.AQUA);
+        arr.add(Color.ORANGE);
+        arr.add(Color.WHITE);
+        arr.add(Color.PURPLE);
+        arr.add(Color.MAROON);
+        arr.add(Color.GRAY);
+        arr.add(Color.BLACK);
+        arr.add(Color.FUCHSIA);
+        arr.add(Color.OLIVE);
+        arr.add(Color.NAVY);
+        arr.add(Color.TEAL);
+        arr.add(Color.YELLOW);
+        arr.add(Color.SILVER);
+
+        return arr.get(colorIdx);
+    }
     private boolean canPlayerBuy(PlayerInventory player_inventory, HashMap<Material, Integer> b){
 
         boolean isEverythingOk = false;

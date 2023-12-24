@@ -18,14 +18,14 @@ import java.util.Objects;
 public final class BetterSurvival extends JavaPlugin implements Listener {
 
 
-   FileConfiguration config = getConfig();
+    FileConfiguration config = getConfig();
 
 
     @Override
     public void onEnable() {
 
         if(Objects.equals(config.getString("dragon_egg_location"), "")) {
-            config.set("dragon_egg_location", "==: org.bukkit.Location\n" + "  world: world\n" + "  x: 0.0\n" + "  y: 0.0\n" + "  z: 0.0\n" + "  pitch: 0.0\n" + "  yaw: 0.0");
+            config.set("dragon_egg_location", "\n==: org.bukkit.Location\n" + "  world: world\n" + "  x: 0.0\n" + "  y: 0.0\n" + "  z: 0.0\n" + "  pitch: 0.0\n" + "  yaw: 0.0");
             saveConfig();
         }
 
