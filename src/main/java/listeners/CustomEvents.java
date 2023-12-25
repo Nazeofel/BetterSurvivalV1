@@ -99,6 +99,7 @@ public class CustomEvents implements Listener {
         inventory.setItem(34, P10);
         inventory.setItem(36, new ItemStack(Material.BOW));
         inventory.setItem(40, PW10);
+        inventory.setItem(44, new ItemStack(Material.ARROW));
         inventory.setItem(45, new ItemStack(Material.GRAY_STAINED_GLASS_PANE));
         inventory.setItem(46, new ItemStack(Material.GRAY_STAINED_GLASS_PANE));
         inventory.setItem(47, new ItemStack(Material.GRAY_STAINED_GLASS_PANE));
@@ -296,36 +297,30 @@ public class CustomEvents implements Listener {
                     switch(stripname){
                         case "Protection V": {
                             buyBook(playerExp, player_levels, "You successfully bought an "+ clicked.getItemMeta().getDisplayName() + " ", calculateExperience(45), 45, p, P5, EnchantmentsLevels.V);
-                            Fireworks(p,5);
                             break;
                         }
                         case "Efficiency VI":
                         case "Sharpness VI":
                         case "Protection VI":
                             buyBook(playerExp, player_levels, "You successfully bought an "+ clicked.getItemMeta().getDisplayName() + " ", calculateExperience(65), 65, p, getRightBook(stripname), EnchantmentsLevels.VI);
-                            Fireworks(p,8);
                             break;
                         case "Efficiency VII":
                         case "Sharpness VII":
                         case "Protection VII":
                             buyBook(playerExp, player_levels, "You successfully bought an "+ clicked.getItemMeta().getDisplayName() + " ", calculateExperience(80), 80, p, getRightBook(stripname), EnchantmentsLevels.VII);
-                            Fireworks(p,10);
                             break;
                         case "Sharpness VIII":
                         case "Protection VIII":
                             buyBook(playerExp, player_levels, "You successfully bought an "+ clicked.getItemMeta().getDisplayName() + " ", calculateExperience(100), 100, p, getRightBook(stripname), EnchantmentsLevels.VIII);
-                            Fireworks(p,12);
                             break;
                         case "Sharpness IX":
                         case "Protection IX":
                             buyBook(playerExp, player_levels, "You successfully bought an "+ clicked.getItemMeta().getDisplayName() + " ", calculateExperience(125), 125, p, getRightBook(stripname), EnchantmentsLevels.IX);
-                            Fireworks(p,20);
                             break;
                         case "Sharpness X":
                         case "Protection X":
                         case "Power X":
                             buyBook(playerExp, player_levels, "You successfully bought an "+ clicked.getItemMeta().getDisplayName() + " ", calculateExperience(0), 0, p, getRightBook(stripname), EnchantmentsLevels.X);
-                            Fireworks(p,50);
                             break;
                         default:
                             System.out.println("nothinggg");
@@ -338,8 +333,8 @@ public class CustomEvents implements Listener {
 
     }
 private void Fireworks(Player p, int levelf){
-        for(int i = 0; i<levelf;i++){
-            Firework firework = p.getWorld().spawn(p.getLocation().add(i*4,0,i*4),Firework.class);
+        for(int i = 0; i<(levelf*0.2);i++){
+            Firework firework = p.getWorld().spawn(p.getLocation().add(i,0,0),Firework.class);
             FireworkMeta data = (FireworkMeta) firework.getFireworkMeta();
 
             //Our random generator
@@ -508,11 +503,17 @@ private void Fireworks(Player p, int levelf){
                 p.sendMessage(ChatColor.GREEN + success);
                 p.sendMessage("");
                 p.sendMessage(ChatColor.AQUA + "You still have " + ChatColor.GOLD + String.valueOf(player_levels - level_needed) + ChatColor.AQUA + " Level");
+                    if(level_needed!=0){
+                        Fireworks(p, level_needed);
+                    }
+                    else {
+                        Fireworks(p, 1000);
+                    }
             }else {
-                p.sendMessage(ChatColor.RED + "You do not have enough experience to buy this book.");
+                p.sendMessage(ChatColor.RED + "You do not have enough " + ChatColor.DARK_RED + "Material " +ChatColor.RED +"to buy this book.");
                 }
-            } else {
-            p.sendMessage(ChatColor.RED + "You do not have enough experience and material to buy this book.");
+        } else {
+            p.sendMessage(ChatColor.RED + "You do not have enough " + ChatColor.DARK_RED + "Experience " +ChatColor.RED +"to buy this book.");
         }
     }
 
