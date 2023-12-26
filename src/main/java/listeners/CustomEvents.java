@@ -23,8 +23,10 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.util.Vector;
 import org.naofel.naofel.CustomPlayer;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.util.*;
 
@@ -332,9 +334,44 @@ public class CustomEvents implements Listener {
         }
 
     }
+
+
+    private ArrayList<Integer> blc(String face){
+        ArrayList<Integer> list = new ArrayList<Integer>();
+        switch (face){
+            case "NORTH":
+            {
+                list.add(0);
+                list.add(-5);
+            }
+
+            break;
+            case "SOUTH":{
+                list.add(0);
+                list.add(5);
+            }
+            break;
+            case "WEST": {
+                list.add(-5);
+                list.add(0);
+            }
+            case "EAST": {
+                list.add(5);
+                list.add(0);
+            }
+            default:
+                break;
+        }
+
+        return  list;
+    }
+
 private void Fireworks(Player p, int levelf){
-        for(int i = 0; i<(levelf*0.2);i++){
-            Firework firework = p.getWorld().spawn(p.getLocation().add(i,0,0),Firework.class);
+        for(int i = 0; i < (levelf*0.2); ++i){
+
+           ArrayList<Integer> ai = blc(p.getFacing().toString());
+
+            Firework firework = p.getWorld().spawn(p.getEyeLocation().add(ai.get(0), 0, ai.get(1)), Firework.class);
             FireworkMeta data = (FireworkMeta) firework.getFireworkMeta();
 
             //Our random generator
@@ -361,7 +398,6 @@ private void Fireworks(Player p, int levelf){
             //Generate some random power and set it
             int rp = r.nextInt(2) + 1;
             data.setPower(rp);
-            data.setPower(2);
 
             //Then apply the effect to the meta
             firework.setFireworkMeta(data);
@@ -491,23 +527,22 @@ private void Fireworks(Player p, int levelf){
 
 
             if(purchased_successful) {
-                if (player_levels >= 0) {
-                    p.getInventory().addItem(item);
-                    int rm_exp = (int) (player_exp - exp_needed);
+                p.getInventory().addItem(item);
 
+                if (level_needed != 0) {
+                    int rm_exp = (int) (player_exp - exp_needed);
                     p.setTotalExperience(Math.max(rm_exp, 0));
                     p.setLevel(Math.max(player_levels - level_needed, 0));
                     p.setExp(Math.max(player_exp - exp_needed, 0));
-                }
-                p.sendMessage("");
-                p.sendMessage(ChatColor.GREEN + success);
-                p.sendMessage("");
-                p.sendMessage(ChatColor.AQUA + "You still have " + ChatColor.GOLD + String.valueOf(player_levels - level_needed) + ChatColor.AQUA + " Level");
-                if (level_needed != 0) {
                     Fireworks(p, level_needed);
                 } else {
                     Fireworks(p, 1000);
                 }
+
+                p.sendMessage("");
+                p.sendMessage(ChatColor.GREEN + success);
+                p.sendMessage("");
+                p.sendMessage(ChatColor.AQUA + "You still have " + ChatColor.GOLD + String.valueOf(player_levels - level_needed) + ChatColor.AQUA + " Level");
             }else {
                 p.sendMessage(ChatColor.RED + "You do not have enough " + ChatColor.DARK_RED + "Material " +ChatColor.RED +"to buy this book.");
                 }
