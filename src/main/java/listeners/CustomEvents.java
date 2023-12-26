@@ -336,27 +336,26 @@ public class CustomEvents implements Listener {
     }
 
 
-    private ArrayList<Integer> blc(String face){
+    private ArrayList<Integer> blc(String face, int i){
         ArrayList<Integer> list = new ArrayList<Integer>();
         switch (face){
             case "NORTH":
             {
                 list.add(0);
-                list.add(-5);
+                list.add(-i);
             }
-
             break;
             case "SOUTH":{
                 list.add(0);
-                list.add(5);
+                list.add(i);
             }
             break;
             case "WEST": {
-                list.add(-5);
+                list.add(-i);
                 list.add(0);
             }
             case "EAST": {
-                list.add(5);
+                list.add(i);
                 list.add(0);
             }
             default:
@@ -369,7 +368,7 @@ public class CustomEvents implements Listener {
 private void Fireworks(Player p, int levelf){
         for(int i = 0; i < (levelf*0.2); ++i){
 
-           ArrayList<Integer> ai = blc(p.getFacing().toString());
+           ArrayList<Integer> ai = blc(p.getFacing().toString(), i);
 
             Firework firework = p.getWorld().spawn(p.getEyeLocation().add(ai.get(0), 0, ai.get(1)), Firework.class);
             FireworkMeta data = (FireworkMeta) firework.getFireworkMeta();
