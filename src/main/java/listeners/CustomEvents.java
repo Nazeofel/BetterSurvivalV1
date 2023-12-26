@@ -490,8 +490,8 @@ private void Fireworks(Player p, int levelf){
             }
 
 
-            if(purchased_successful){
-                if(player_levels != 0){
+            if(purchased_successful) {
+                if (player_levels >= 0) {
                     p.getInventory().addItem(item);
                     int rm_exp = (int) (player_exp - exp_needed);
 
@@ -503,12 +503,11 @@ private void Fireworks(Player p, int levelf){
                 p.sendMessage(ChatColor.GREEN + success);
                 p.sendMessage("");
                 p.sendMessage(ChatColor.AQUA + "You still have " + ChatColor.GOLD + String.valueOf(player_levels - level_needed) + ChatColor.AQUA + " Level");
-                    if(level_needed!=0){
-                        Fireworks(p, level_needed);
-                    }
-                    else {
-                        Fireworks(p, 1000);
-                    }
+                if (level_needed != 0) {
+                    Fireworks(p, level_needed);
+                } else {
+                    Fireworks(p, 1000);
+                }
             }else {
                 p.sendMessage(ChatColor.RED + "You do not have enough " + ChatColor.DARK_RED + "Material " +ChatColor.RED +"to buy this book.");
                 }
@@ -553,6 +552,12 @@ private void Fireworks(Player p, int levelf){
             enchantmentIntegerMap.forEach((k, v) -> {
                 if(result_meta == null) return;
                 result_meta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, v, true);
+
+            });
+        } else if(item_name.contains("Power")){
+            enchantmentIntegerMap.forEach((k, v) -> {
+                if(result_meta == null) return;
+                result_meta.addEnchant(Enchantment.ARROW_DAMAGE, v, true);
 
             });
         }
