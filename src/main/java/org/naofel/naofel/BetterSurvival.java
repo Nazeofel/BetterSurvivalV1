@@ -1,6 +1,7 @@
 package org.naofel.naofel;
 
 import commands.Commands;
+import listeners.AnvilEvents;
 import listeners.CustomEvents;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -32,6 +33,7 @@ public final class BetterSurvival extends JavaPlugin implements Listener {
         System.out.println("Plug-in is starting up");
         getServer().getPluginManager().registerEvents(new CustomEvents(), this);
         getServer().getPluginManager().registerEvents(this, this);
+        getServer().getPluginManager().registerEvents(new AnvilEvents(), this);
         getCommand("break").setExecutor(new Commands());
 
     }
