@@ -567,6 +567,10 @@ private void Fireworks(Player p, int levelf){
         if(result == null) return;
         ItemMeta result_meta = result.getItemMeta();
 
+        if(e.getInventory().getRepairCost() > e.getInventory().getMaximumRepairCost()){
+            e.getInventory().setRepairCost(50);
+        }
+
         // only check if name contains efficiency or whatever
         String item_name = second.getItemMeta().getDisplayName();
 
