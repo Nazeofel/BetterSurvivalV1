@@ -1,8 +1,9 @@
 package listeners;
 
+import Utils.Firework;
 import org.bukkit.Bukkit;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Firework;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -23,6 +24,7 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.material.MaterialData;
 import org.bukkit.util.Vector;
 import org.naofel.naofel.CustomPlayer;
 
@@ -31,6 +33,8 @@ import java.lang.reflect.Type;
 import java.util.*;
 
 public class CustomEvents implements Listener {
+
+
 
     private enum EnchantmentsLevels {
         V,
@@ -370,96 +374,6 @@ public class CustomEvents implements Listener {
 
     }
 
-
-    private ArrayList<Integer> blc(String face, int i){
-        ArrayList<Integer> list = new ArrayList<Integer>();
-        switch (face){
-            case "NORTH":
-            {
-                list.add(0);
-                list.add(-i);
-            }
-            break;
-            case "SOUTH":{
-                list.add(0);
-                list.add(i);
-            }
-            break;
-            case "WEST": {
-                list.add(-i);
-                list.add(0);
-            }
-            case "EAST": {
-                list.add(i);
-                list.add(0);
-            }
-            default:
-                break;
-        }
-
-        return  list;
-    }
-
-private void Fireworks(Player p, int levelf){
-        for(int i = 0; i < (levelf*0.2); ++i){
-
-           ArrayList<Integer> ai = blc(p.getFacing().toString(), i);
-
-            Firework firework = p.getWorld().spawn(p.getEyeLocation().add(ai.get(0), 0, ai.get(1)), Firework.class);
-            FireworkMeta data = (FireworkMeta) firework.getFireworkMeta();
-
-            //Our random generator
-            Random r = new Random();
-
-            //Get the type
-            int rt = r.nextInt(5)+1;
-            FireworkEffect.Type type = FireworkEffect.Type.BALL;
-            if (rt == 1) type = FireworkEffect.Type.BALL;
-            if (rt == 2) type = FireworkEffect.Type.BALL_LARGE;
-            if (rt == 3) type = FireworkEffect.Type.BURST;
-            if (rt == 4) type = FireworkEffect.Type.CREEPER;
-            if (rt == 5) type = FireworkEffect.Type.STAR;
-
-            //Get our random colours
-            int r1i = r.nextInt(16) + 1;
-            int r2i = r.nextInt(16) + 1;
-            Color c1 = getColor(r1i);
-            Color c2 = getColor(r2i);
-
-            //Create our effect with this
-            data.addEffects(FireworkEffect.builder().flicker(r.nextBoolean()).withColor(c1).withFade(c2).with(type).trail(r.nextBoolean()).build());
-
-            //Generate some random power and set it
-            int rp = r.nextInt(2) + 1;
-            data.setPower(rp);
-
-            //Then apply the effect to the meta
-            firework.setFireworkMeta(data);
-        }
-    }
-    private Color getColor(int colorIdx) {
-        ArrayList<Color> arr = new ArrayList<>();
-
-        arr.add(Color.GREEN);
-        arr.add(Color.RED);
-        arr.add(Color.BLUE);
-        arr.add(Color.LIME);
-        arr.add(Color.AQUA);
-        arr.add(Color.ORANGE);
-        arr.add(Color.WHITE);
-        arr.add(Color.PURPLE);
-        arr.add(Color.MAROON);
-        arr.add(Color.GRAY);
-        arr.add(Color.BLACK);
-        arr.add(Color.FUCHSIA);
-        arr.add(Color.OLIVE);
-        arr.add(Color.NAVY);
-        arr.add(Color.TEAL);
-        arr.add(Color.YELLOW);
-        arr.add(Color.SILVER);
-
-        return arr.get(colorIdx);
-    }
     private boolean canPlayerBuy(PlayerInventory player_inventory, HashMap<Material, Integer> b){
 
         boolean isEverythingOk = false;
@@ -568,9 +482,9 @@ private void Fireworks(Player p, int levelf){
                     p.setTotalExperience(Math.max(rm_exp, 0));
                     p.setLevel(Math.max(player_levels - level_needed, 0));
                     p.setExp(Math.max(player_exp - exp_needed, 0));
-                    Fireworks(p, level_needed);
+                    new Firework(p, level_needed).launch();
                 } else {
-                    Fireworks(p, 1000);
+                    new Firework(p, 1000).launch();
                 }
 
                 p.sendMessage("");
@@ -584,72 +498,6 @@ private void Fireworks(Player p, int levelf){
             p.sendMessage(ChatColor.RED + "You do not have enough " + ChatColor.DARK_RED + "Experience " +ChatColor.RED +"to buy this book.");
         }
     }
-
-    @EventHandler
-    public void onPrepareAnvilEvent(PrepareAnvilEvent e){
-
-        // If we ever make books with multiple enchantments
-        // We will need to rework the forEach and turn it into a method
-
-        ItemStack first = e.getInventory().getContents()[0];
-        ItemStack second = e.getInventory().getContents()[1];
-
-        EnchantmentStorageMeta x = (EnchantmentStorageMeta) second.getItemMeta();
-        if(x == null) return;
-        Map<Enchantment, Integer> enchantmentIntegerMap = x.getStoredEnchants();
-
-        ItemStack result = e.getResult();
-        if(result == null) return;
-        ItemMeta result_meta = result.getItemMeta();
-
-        if(e.getInventory().getRepairCost() > e.getInventory().getMaximumRepairCost()){
-            e.getInventory().setRepairCost(50);
-        }
-
-        // only check if name contains efficiency or whatever
-        String item_name = second.getItemMeta().getDisplayName();
-
-        if(item_name.contains("Efficiency")){
-            enchantmentIntegerMap.forEach((k, v) -> {
-                if(result_meta == null) return;
-                result_meta.addEnchant(Enchantment.DIG_SPEED, v, true);
-
-            });
-        } else if(item_name.contains("Sharpness")){
-            enchantmentIntegerMap.forEach((k, v) -> {
-                if(result_meta == null) return;
-                result_meta.addEnchant(Enchantment.DAMAGE_ALL, v, true);
-
-            });
-        } else if(item_name.contains("Protection")){
-            enchantmentIntegerMap.forEach((k, v) -> {
-                if(result_meta == null) return;
-                result_meta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, v, true);
-
-            });
-        } else if(item_name.contains("Power")){
-            enchantmentIntegerMap.forEach((k, v) -> {
-                if(result_meta == null) return;
-                result_meta.addEnchant(Enchantment.ARROW_DAMAGE, v, true);
-
-            });
-        }
-
-        result.setItemMeta(result_meta);
-
-    }
-
-
-    // for later use, also put a switch in it
-    private void passEnchant(Map<Enchantment, Integer> enchMap, ItemMeta result_meta){
-
-        // check if string "getDisplayName()" contains any of the enchantements..
-
-        enchMap.forEach((k, v) -> result_meta.addEnchant(Enchantment.DIG_SPEED, v, true));
-    }
-
-
-
 
 
     @EventHandler
