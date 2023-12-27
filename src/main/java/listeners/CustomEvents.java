@@ -52,6 +52,11 @@ public class CustomEvents implements Listener {
 
     private static final ItemStack E6 = createEnchantedBook("Efficiency VI", Enchantment.DIG_SPEED, 6);
     private static final ItemStack E7 = createEnchantedBook("Efficiency VII", Enchantment.DIG_SPEED, 7);
+    private static final ItemStack E8 = createEnchantedBook("Efficiency VIII", Enchantment.DIG_SPEED, 8);
+    private static final ItemStack E9 = createEnchantedBook("Efficiency IX", Enchantment.DIG_SPEED, 9);
+    private static final ItemStack E10 = createEnchantedBook("Efficiency X", Enchantment.DIG_SPEED, 10);
+    private static final ItemStack F5 = createEnchantedBook("Fortune V", Enchantment.LOOT_BONUS_BLOCKS, 5);
+    private static final ItemStack F10 = createEnchantedBook("Fortune X", Enchantment.LOOT_BONUS_BLOCKS, 10);
     private static final ItemStack S6 = createEnchantedBook("Sharpness VI", Enchantment.DAMAGE_ALL, 6);
     private static final ItemStack S7 = createEnchantedBook("Sharpness VII", Enchantment.DAMAGE_ALL, 7);
     private static final ItemStack S8 = createEnchantedBook("Sharpness VIII", Enchantment.DAMAGE_ALL, 8);
@@ -83,8 +88,13 @@ public class CustomEvents implements Listener {
         inventory.setItem(7, new ItemStack(Material.GRAY_STAINED_GLASS_PANE));
         inventory.setItem(8, new ItemStack(Material.GRAY_STAINED_GLASS_PANE));
         inventory.setItem(9, new ItemStack(Material.DIAMOND_PICKAXE));
-        inventory.setItem(12, E6);
-        inventory.setItem(14, E7);
+        inventory.setItem(10, E6);
+        inventory.setItem(11, E7);
+        inventory.setItem(12, E8);
+        inventory.setItem(13, E9);
+        inventory.setItem(14, E10);
+        inventory.setItem(15, F5);
+        inventory.setItem(16, F10);
         inventory.setItem(17, new ItemStack(Material.DIAMOND_AXE));
         inventory.setItem(18, new ItemStack(Material.DIAMOND_SWORD));
         inventory.setItem(20, S6);
@@ -225,6 +235,26 @@ public class CustomEvents implements Listener {
                 item = E7;
                 break;
             }
+            case "Efficiency VIII":{
+                item = E8;
+                break;
+            }
+            case "Efficiency IX":{
+                item = E9;
+                break;
+            }
+            case "Efficiency X":{
+                item = E10;
+                break;
+            }
+            case "Fortune V":{
+                item = F5;
+                break;
+            }
+            case "Fortune X":{
+                item = F10;
+                break;
+            }
             case "Sharpness VI":{
                 item = S6;
                 break;
@@ -297,10 +327,11 @@ public class CustomEvents implements Listener {
                 if(clicked.getItemMeta() != null && clicked.getItemMeta().hasDisplayName()){
                     String stripname = ChatColor.stripColor(clicked.getItemMeta().getDisplayName());
                     switch(stripname){
-                        case "Protection V": {
-                            buyBook(playerExp, player_levels, "You successfully bought an "+ clicked.getItemMeta().getDisplayName() + " ", calculateExperience(45), 45, p, P5, EnchantmentsLevels.V);
+                        case "Protection V":
+                        case "Fortune V":
+                            buyBook(playerExp, player_levels, "You successfully bought an "+ clicked.getItemMeta().getDisplayName() + " ", calculateExperience(45), 45, p, getRightBook(stripname), EnchantmentsLevels.V);
                             break;
-                        }
+
                         case "Efficiency VI":
                         case "Sharpness VI":
                         case "Protection VI":
@@ -311,17 +342,21 @@ public class CustomEvents implements Listener {
                         case "Protection VII":
                             buyBook(playerExp, player_levels, "You successfully bought an "+ clicked.getItemMeta().getDisplayName() + " ", calculateExperience(80), 80, p, getRightBook(stripname), EnchantmentsLevels.VII);
                             break;
+                        case "Efficiency VIII":
                         case "Sharpness VIII":
                         case "Protection VIII":
                             buyBook(playerExp, player_levels, "You successfully bought an "+ clicked.getItemMeta().getDisplayName() + " ", calculateExperience(100), 100, p, getRightBook(stripname), EnchantmentsLevels.VIII);
                             break;
+                        case "Efficiency IX":
                         case "Sharpness IX":
                         case "Protection IX":
                             buyBook(playerExp, player_levels, "You successfully bought an "+ clicked.getItemMeta().getDisplayName() + " ", calculateExperience(125), 125, p, getRightBook(stripname), EnchantmentsLevels.IX);
                             break;
+                        case "Efficiency X":
                         case "Sharpness X":
                         case "Protection X":
                         case "Power X":
+                        case "Fortune X":
                             buyBook(playerExp, player_levels, "You successfully bought an "+ clicked.getItemMeta().getDisplayName() + " ", calculateExperience(0), 0, p, getRightBook(stripname), EnchantmentsLevels.X);
                             break;
                         default:
